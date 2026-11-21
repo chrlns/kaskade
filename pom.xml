@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>pub.source</groupId>
+  <artifactId>kaskade</artifactId>
+  <version>0.1.0</version>
+  <packaging>jar</packaging>
+
+  <name>Kaskade</name>
+  <description>Declarative LLM escalation chains: fast model first, fixers repair, validators decide, budgets control paid fallbacks.</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.release>25</maven.compiler.release>
+    <snakeyaml.version>2.3</snakeyaml.version>
+    <junit.version>5.11.4</junit.version>
+  </properties>
+
+  <dependencies>
+    <!-- Only used by pub.source.kaskade.yaml; the core package has zero third-party dependencies. -->
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>${snakeyaml.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.0</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <!-- Markdown documentation to browsable HTML: mvn -Pdocs generate-resources -->
+    <profile>
+      <id>docs</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.ruleoftech</groupId>
+            <artifactId>markdown-page-generator-plugin</artifactId>
+            <version>2.1.0</version>
+            <executions>
+              <execution>
+                <id>markdown-to-html</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>generate</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <inputDirectory>${project.basedir}/docs</inputDirectory>
+              <outputDirectory>${project.build.directory}/docs-html</outputDirectory>
+              <recursiveInput>true</recursiveInput>
+              <pegdownExtensions>TABLES,FENCED_CODE_BLOCKS,SMARTYPANTS,AUTOLINKS,EXTANCHORLINKS</pegdownExtensions>
+              <transformRelativeMarkdownLinks>true</transformRelativeMarkdownLinks>
+              <headerHtmlFile>${project.basedir}/docs/_template/header.html</headerHtmlFile>
+              <footerHtmlFile>${project.basedir}/docs/_template/footer.html</footerHtmlFile>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
