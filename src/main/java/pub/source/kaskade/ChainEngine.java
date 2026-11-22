@@ -111,6 +111,7 @@ public final class ChainEngine {
                 return transport.call(step.model(), prompt);
             } catch (Exception e) {
                 LOG.log(Level.WARNING, "transport attempt {0}/{1} failed for {2}", new Object[]{attempt, attempts, step.model()});
+                LOG.log(Level.DEBUG, "Exception", e);
             }
         }
         return null;
