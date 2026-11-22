@@ -74,13 +74,11 @@ public final class ChainEngine {
                     }
                     case STOP_BEFORE_PAID -> {
                         if (step.paid()) {
-                            LOG.log(Level.WARNING,
-                                    "budget exhausted; skipping paid step " + i + " (" + step.model().model() + ")");
+                            LOG.log(Level.WARNING, "budget exhausted; skipping paid step {0} ({1})", new Object[]{i, step.model().model()});
                             continue;
                         }
                     }
-                    case WARN -> LOG.log(Level.WARNING,
-                            "budget exhausted; spent " + total + " of " + budget.maxCostUsd() + " USD; continuing");
+                    case WARN -> LOG.log(Level.WARNING, "budget exhausted; spent {0} of {1} USD; continuing", new Object[]{total, budget.maxCostUsd()});
                 }
             }
 
@@ -112,8 +110,7 @@ public final class ChainEngine {
             try {
                 return transport.call(step.model(), prompt);
             } catch (Exception e) {
-                LOG.log(Level.WARNING,
-                        "transport attempt " + attempt + "/" + attempts + " failed for " + step.model(), e);
+                LOG.log(Level.WARNING, "transport attempt {0}/{1} failed for {2}", new Object[]{attempt, attempts, step.model()});
             }
         }
         return null;
